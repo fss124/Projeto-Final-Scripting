@@ -1,0 +1,31 @@
+#!/bin/bash
+
+## Script de Backup
+
+# Este script cria um backup dos arquivos importantes na pasta home e faz upload para um servidor remoto.
+
+# Verifica se a pasta de backup existe, caso contrário, cria-a
+if [ ! -d ~/backups ]; then
+    mkdir ~/backups
+fi
+
+# Compacta os arquivos importantes e salva na pasta de backup
+tar -cvzf ~/backups/home_$(date +"%Y-%m-%d_%H-%M-%S").tar.gz ~/Documents ~/Pictures ~/Videos
+
+# Faz upload do backup para o servidor remoto
+read -p "Digite o endereço IP do servidor remoto: " server_ip
+read -p "Digite o nome de usuário para o servidor remoto: " server_username
+read -p "Digite o caminho para a pasta de backup no servidor remoto: " remote_path
+scp -r ~/backups/* $server_username@$server_ip:$remote_path
+
+## Script de Monitoramento
+
+# monitora o uso de disco, memória e CPU e envia um e-mail em caso de uso alto
+
+# define o intervalo para monitoramento (em segundos)
+interval=60
+
+# Define o limite para envio de e-mail
+cpu_threshold=80
+memory_threshold=70
+disk_threshold=70
