@@ -63,3 +63,21 @@ echo "ATENÇÃO: Uso de disco está acima do limite"
 else
 echo "Uso de disco está dentro do limite"
 fi
+
+#Pergunta ao usuário se deseja fazer upload do backup para um servidor remoto
+read -p "Deseja fazer upload do backup para um servidor remoto? (s/n) " answer
+
+#Verifica a resposta do usuário
+if [ "$answer" == "s" ]; then
+#Solicita as informações de login do servidor remoto
+read -p "Informe o endereço do servidor: " server_address
+read -p "Informe o nome de usuário: " username
+read -p "Informe a senha: " -s password
+echo ""
+
+#Faz o upload do backup para o servidor remoto
+scp /workspaces/Projeto-Final-Scripting/backups/home_$(date +"%Y-%m-%d_%H-%M-%S").tar.gz $username:$password@$server_address:/backups
+echo "Upload concluído com sucesso!"
+else
+echo "Upload não realizado."
+fi
