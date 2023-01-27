@@ -31,7 +31,7 @@ disk_threshold=90
 date_time=$(date +"%Y-%m-%d %H:%M:%S")
 
 #Obtém o uso de disco
-disk_usage=$(df -h | awk 'NR==2{print $5}')
+disk_usage=$(df -h | awk 'NR==2{print $5}' | tr -d '%')
 
 #Obtém o uso de memória
 memory_usage=$(free -m | awk 'NR==2{print $3/$2 * 100.0}')
