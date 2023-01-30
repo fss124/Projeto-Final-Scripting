@@ -41,16 +41,16 @@ backup_database() {
     read -p "Deseja realizar o backup da base de dados? (s/n) " resposta
 
     if [ "$resposta" = "s" ]; then
-        # Cria a cópia de segurança da base de dados e salva-a no arquivo gerado na pasta de backup
+        # Cria a cópia de segurança da base de dados e salva no arquivo gerado na pasta de backup
         mysqldump -u root -proot areadetrabalho > "/workspaces/Projeto-de-Scripting-2023/${nome_arquivo}"
 
-        echo "Cópia de segurança da base de dados salva como ${nome_arquivo} na pasta de backup"
+        echo "Cópia de segurança da base de dados salvo como ${nome_arquivo} na pasta de backup"
     else
-        echo "Backup da base de dados cancelado pelo usuário."
+        echo "Backup da base de dados cancelado."
     fi
 }
 
-#Define os limites de uso
+#Define os limites de uso de cpu, memória e disco
 cpu_threshold=80
 memory_threshold=70
 disk_threshold=90
