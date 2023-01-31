@@ -2,7 +2,7 @@
 
 ## Script de Backup
 
-# Este script cria um backup dos arquivos importantes na pasta home e faz upload para um servidor remoto.
+# Este script cria um backup dos arquivos importantes na pasta home e da base de dados, e faz upload para um servidor remoto.
 
 # Verifica se a pasta de backup existe, caso contrário, cria-a
 if [ ! -d /workspaces/Projeto-Final-Scripting/backups ]; then
@@ -18,13 +18,11 @@ if [ ! -d /workspaces/Projeto-Final-Scripting/Videos ]; then
     mkdir /workspaces/Projeto-Final-Scripting/Videos
 fi
 
-#Compacta os arquivos importantes e salva na pasta de backup
-tar -cvzf /workspaces/Projeto-Final-Scripting/backups/home_$(date +"%Y-%m-%d_%H-%M-%S").tar.gz /workspaces/Projeto-Final-Scripting/Documents /workspaces/Projeto-Final-Scripting/Pictures /workspaces/Projeto-Final-Scripting/Videos
+# Cria a pasta de backup da base de dados
+mkdir -p /workspaces/Projeto-Final-Scripting/backups/db
 
+# Função para criar o backup da base de dados
 backup_database() {
-    # Cria a pasta de backup no ambiente de trabalho do utilizador
-    mkdir -p /workspaces/Projeto-de-Scripting-2023
-
     # Gera o nome do arquivo de backup com a data atual
     data_atual=$(date +"%Y-%m-%d")
     nome_arquivo="areadetrabalho${data_atual}.sql"
@@ -32,7 +30,7 @@ backup_database() {
     # Verifica se o arquivo de backup já existe na pasta de backup
     # Se existir, adiciona um contador ao nome do arquivo até que ele seja único
     i=1
-    while [ -f "/workspaces/Projeto-de-Scripting-2023/${nome_arquivo}" ]; do
+    while [ -f "/workspaces/Projeto-Final-Scripting/backups/db/${nome_arquivo}" ]; do
         nome_arquivo="areadetrabalho${data_atual}${i}.sql"
         i=$((i + 1))
     done
@@ -42,13 +40,19 @@ backup_database() {
 
     if [ "$resposta" = "s" ]; then
         # Cria a cópia de segurança da base de dados e salva no arquivo gerado na pasta de backup
-        mysqldump -u root -proot areadetrabalho > "/workspaces/Projeto-de-Scripting-2023/${nome_arquivo}"
+        mysqldump -u root -proot areadetrabalho > "/workspaces/Projeto-Final-Scripting/backups/db/${nome_arquivo}"
 
-        echo "Cópia de segurança da base de dados salvo como ${nome_arquivo} na pasta de backup"
+        echo "Cópia de segurança da base de dados salva como ${nome_arquivo} na pasta de backup"
     else
         echo "Backup da base de dados cancelado."
     fi
 }
+
+# Chama a função para fazer o backup da base de dados
+backup_database
+
+# Compacta os arquivos importantes e salva na pasta de backup
+tar -cvzf /workspaces/Projeto-
 
 #Define os limites de uso de cpu, memória e disco
 cpu_threshold=80
