@@ -1,3 +1,3 @@
 # Projeto-Final-Scripting
 Repositório do projeto da disciplina de tecnologias de scripting  e automação
-Este scrip vai cria um backup dos arquivos importantes na pasta home e faz upload para um servidor remoto e monitora o uso de disco, memória e CPU e envia um e-mail em caso de uso alto, organiza os arquivos na pasta downloads por tipo de arquivo e os move para um servidor remoto, move os arquivos para as pastas apropriadas e faz upload dos arquivos para o servidor remoto.
+Este comando é um script de backup que faz a cópia de arquivos importantes na pasta home, compacta-os e salva na pasta de backup. Além disso, também é possível fazer backup da base de dados caso o usuário opte por isso. Ele também exibe informações sobre o estado do computador, como o uso de CPU, memória e disco. Verifica se o uso de CPU, memória e disco está dentro dos limites definidos e exibe uma mensagem caso estejam acima dos limites.
